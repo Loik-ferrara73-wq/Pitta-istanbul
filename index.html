@@ -6,9 +6,9 @@
 <title>Pitta-Snack Istanbul</title>
 <style>
 *{box-sizing:border-box;margin:0;padding:0}
-body{font-family:system-ui,sans-serif;background:#f5f4f0;max-width:480px;margin:0 auto}
-.top{display:flex;background:#1a1a1a}
-.tab{flex:1;padding:13px 0;border:none;cursor:pointer;font-size:13px;font-weight:600;color:#888;background:transparent}
+body{font-family:system-ui,sans-serif;background:#f5f4f0;max-width:480px;margin:0 auto;min-height:100vh}
+.top{display:flex;background:#1a1a1a;position:sticky;top:0;z-index:10}
+.tab{flex:1;padding:13px 0;border:none;cursor:pointer;font-size:13px;font-weight:600;color:#888;background:transparent;transition:all .2s}
 .tab.on{background:#C0392B;color:#fff}
 .hero{background:linear-gradient(135deg,#8B1A1A,#C0392B);padding:20px 16px;color:#fff}
 .hero h1{font-size:21px;font-weight:800}
@@ -19,7 +19,7 @@ body{font-family:system-ui,sans-serif;background:#f5f4f0;max-width:480px;margin:
 .si input{border:none;background:none;outline:none;flex:1;font-size:14px}
 .cats{display:flex;gap:8px;overflow-x:auto;padding:10px 12px;background:#fff;border-bottom:1px solid #eee;scrollbar-width:none}
 .cats::-webkit-scrollbar{display:none}
-.cb{white-space:nowrap;padding:6px 14px;border-radius:20px;font-size:12px;font-weight:600;border:1.5px solid #e5e7eb;background:#fff;color:#555;cursor:pointer}
+.cb{white-space:nowrap;padding:6px 14px;border-radius:20px;font-size:12px;font-weight:600;border:1.5px solid #e5e7eb;background:#fff;color:#555;cursor:pointer;transition:all .15s}
 .cb.on{background:#C0392B;color:#fff;border-color:#C0392B}
 .sh{padding:12px 16px 8px;display:flex;justify-content:space-between;align-items:center}
 .sh h2{font-size:15px;font-weight:700}
@@ -28,19 +28,20 @@ body{font-family:system-ui,sans-serif;background:#f5f4f0;max-width:480px;margin:
 .in{font-size:14px;font-weight:600;color:#1a1a1a}
 .id{font-size:12px;color:#888;margin-top:2px}
 .ip{font-size:15px;font-weight:700;color:#C0392B;margin-top:4px}
-.ab{width:36px;height:36px;border-radius:50%;background:#C0392B;border:none;color:#fff;font-size:22px;cursor:pointer;flex-shrink:0;display:flex;align-items:center;justify-content:center}
+.ab{width:36px;height:36px;border-radius:50%;background:#C0392B;border:none;color:#fff;font-size:22px;cursor:pointer;flex-shrink:0;display:flex;align-items:center;justify-content:center;transition:transform .1s}
+.ab:active{transform:scale(.9)}
 .qc{display:flex;align-items:center;gap:8px;flex-shrink:0}
 .qb{width:30px;height:30px;border-radius:50%;border:2px solid #C0392B;background:#fff;color:#C0392B;font-size:16px;cursor:pointer;display:flex;align-items:center;justify-content:center}
 .qb.p{background:#C0392B;color:#fff;border:none}
 .qn{font-size:15px;font-weight:700;min-width:20px;text-align:center}
-.cb2{position:fixed;bottom:16px;left:50%;transform:translateX(-50%);width:calc(100% - 32px);max-width:448px;background:linear-gradient(135deg,#8B1A1A,#C0392B);border-radius:14px;padding:14px 18px;display:flex;align-items:center;justify-content:space-between;cursor:pointer;box-shadow:0 4px 20px rgba(192,57,43,.4);z-index:50}
+.cb2{position:fixed;bottom:16px;left:50%;transform:translateX(-50%);width:calc(100% - 32px);max-width:448px;background:linear-gradient(135deg,#8B1A1A,#C0392B);border-radius:14px;padding:14px 18px;display:flex;align-items:center;justify-content:space-between;cursor:pointer;box-shadow:0 4px 20px rgba(192,57,43,.4);z-index:9}
 .cc{background:rgba(255,255,255,.25);border-radius:20px;padding:2px 10px;font-size:12px;font-weight:700;color:#fff;margin-right:8px}
 .ov{position:fixed;inset:0;background:rgba(0,0,0,.5);z-index:100;display:flex;align-items:flex-end;justify-content:center}
 .sh2{background:#fff;border-radius:20px 20px 0 0;width:100%;max-width:480px;padding:20px;max-height:85vh;overflow-y:auto}
 .hnd{width:40px;height:4px;background:#ddd;border-radius:2px;margin:0 auto 16px}
 .ci{display:flex;justify-content:space-between;align-items:center;padding:10px 0;border-bottom:1px solid #f0f0f0}
-.ct{display:flex;justify-content:space-between;padding:14px 0;font-weight:700;font-size:16px;border-top:2px solid #1a1a1a;margin-top:8px}
-.ct span:last-child{color:#C0392B}
+.ctot{display:flex;justify-content:space-between;padding:14px 0;font-weight:700;font-size:16px;border-top:2px solid #1a1a1a;margin-top:8px}
+.ctot span:last-child{color:#C0392B}
 textarea{width:100%;padding:10px 12px;border:1.5px solid #e5e7eb;border-radius:10px;font-size:14px;resize:none;font-family:inherit;outline:none;margin-bottom:12px}
 .ob{width:100%;background:linear-gradient(135deg,#8B1A1A,#C0392B);color:#fff;border:none;border-radius:12px;padding:15px;font-size:15px;font-weight:700;cursor:pointer}
 .ob:disabled{background:#ccc;cursor:not-allowed}
@@ -53,12 +54,12 @@ textarea{width:100%;padding:10px 12px;border:1.5px solid #e5e7eb;border-radius:1
 .sbg{border-radius:20px;padding:4px 12px;font-size:11px;font-weight:700}
 .oi{padding:10px 14px}
 .ol{display:flex;justify-content:space-between;font-size:13px;padding:2px 0}
-.on2{font-size:12px;color:#666;font-style:italic;margin-top:6px;background:#fffbeb;border-radius:6px;padding:4px 8px}
+.onote{font-size:12px;color:#666;font-style:italic;margin-top:6px;background:#fffbeb;border-radius:6px;padding:4px 8px}
 .of{display:flex;justify-content:space-between;align-items:center;padding:10px 14px;border-top:1px solid #f0f0f0;background:#fafafa}
 .ac{border:none;border-radius:8px;padding:6px 14px;font-size:12px;font-weight:700;cursor:pointer;color:#fff}
 .em{text-align:center;padding:48px;color:#999}
 @keyframes pulse{0%,100%{opacity:1}50%{opacity:.3}}
-.dot{width:8px;height:8px;border-radius:50%;background:#16a34a;animation:pulse 1.5s infinite;display:inline-block}
+.dot{width:8px;height:8px;border-radius:50%;background:#16a34a;animation:pulse 1.5s infinite;display:inline-block;margin-right:4px}
 </style>
 </head>
 <body>
@@ -68,10 +69,33 @@ textarea{width:100%;padding:10px 12px;border:1.5px solid #e5e7eb;border-radius:1
 </div>
 <div class="al" id="al">🔔 Nouvelle commande reçue !</div>
 <div id="cv"></div>
-<div id="sv" style="display:none;padding:14px"></div>
+<div id="sv" style="display:none;padding:14px;padding-bottom:40px"></div>
 
 <script>
-const TN=parseInt(new URLSearchParams(location.search).get('table'))||3;
+// ── Supabase REST API (no CDN needed) ──────────────────────────────
+const URL_SB = "https://cpeiszwucpcyvsrklmlr.supabase.co/rest/v1";
+const KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImNwZWlzend1Y3BjeXZzcmtsbWxyIiwicm9sZSI6ImFub24iLCJpYXQiOjE3Nzc1ODgyNzUsImV4cCI6MjA5MzE2NDI3NX0.89Nd63IZXSlQUJXlX-OiCZt7YPg6B0OkfkEawsmD85M";
+const H = {"apikey":KEY,"Authorization":"Bearer "+KEY,"Content-Type":"application/json","Prefer":"return=minimal"};
+
+async function dbGet(){
+  const r = await fetch(URL_SB+"/orders?select=*&order=created_at.desc",{headers:H});
+  return r.ok ? r.json() : [];
+}
+async function dbInsert(row){
+  const r = await fetch(URL_SB+"/orders",{method:"POST",headers:{...H,Prefer:"return=minimal"},body:JSON.stringify(row)});
+  return r.ok;
+}
+async function dbUpdate(id,patch){
+  const r = await fetch(URL_SB+"/orders?id=eq."+id,{method:"PATCH",headers:H,body:JSON.stringify(patch)});
+  return r.ok;
+}
+async function dbDelete(id){
+  const r = await fetch(URL_SB+"/orders?id=eq."+id,{method:"DELETE",headers:H});
+  return r.ok;
+}
+
+// ── Menu data ──────────────────────────────────────────────────────
+const TN = parseInt(new URLSearchParams(location.search).get('table'))||3;
 const M=[
 {c:"Menus",i:"🎯",items:[
 {id:"m1",n:"Menu Grand Durum Pita",d:"Grand durum + frites + boisson",p:15.50},
@@ -210,8 +234,10 @@ const M=[
 {id:"b10",n:"Eau minérale",d:"Eau fraîche",p:2.00},
 ]},
 ];
+
 const IM={};M.forEach(c=>c.items.forEach(x=>IM[x.id]=x));
-let cart={},cat="Menus",co=false,done=false,note="",view="client",orders=[],SB=null,ch=null;
+let cart={},cat="Menus",co=false,done=false,note="",view="client",orders=[],pollTimer=null;
+
 const ct=()=>Object.entries(cart).reduce((s,[id,q])=>s+(IM[id]?.p||0)*q,0);
 const cc=()=>Object.values(cart).reduce((s,q)=>s+q,0);
 const add=id=>{cart[id]=(cart[id]||0)+1;rC()};
@@ -223,19 +249,26 @@ function sv(v){
   document.getElementById('ts').className='tab'+(v==='staff'?' on':'');
   document.getElementById('cv').style.display=v==='client'?'':'none';
   document.getElementById('sv').style.display=v==='staff'?'':'none';
-  if(v==='staff')loadStaff();
+  if(v==='staff'){loadStaff();startPoll();}
+  else{stopPoll();}
 }
 
+// ── CLIENT VIEW ─────────────────────────────────────────────────────
 function rC(){
   const el=document.getElementById('cv');
   if(done){
-    el.innerHTML=`<div class="ok"><div style="font-size:64px;margin-bottom:16px">✅</div><h2 style="font-size:20px;font-weight:800;color:#16a34a;margin-bottom:8px">Commande envoyée !</h2><p style="font-size:13px;color:#888;margin-bottom:28px;line-height:1.6">Table ${TN} — Commande bien reçue.<br>Votre repas est en préparation !</p><button onclick="done=false;cart={};rC()" style="background:#C0392B;color:#fff;border:none;border-radius:12px;padding:12px 24px;font-size:14px;font-weight:700;cursor:pointer">+ Nouvelle commande</button></div>`;
+    el.innerHTML=`<div class="ok"><div style="font-size:64px;margin-bottom:16px">✅</div><h2 style="font-size:20px;font-weight:800;color:#16a34a;margin-bottom:8px">Commande envoyée !</h2><p style="font-size:13px;color:#888;margin-bottom:28px;line-height:1.6">Table ${TN} — Commande bien reçue.<br>Votre repas est en cours de préparation !</p><button onclick="done=false;cart={};rC()" style="background:#C0392B;color:#fff;border:none;border-radius:12px;padding:12px 24px;font-size:14px;font-weight:700;cursor:pointer">+ Nouvelle commande</button></div>`;
     return;
   }
   const c=M.find(x=>x.c===cat);
   const n=cc(),t=ct();
   el.innerHTML=`
-<div class="hero"><div style="font-size:10px;letter-spacing:2px;opacity:.7;text-transform:uppercase;margin-bottom:4px">Bienvenue chez</div><h1>Pitta-Snack Istanbul</h1><p>Place Verte 17, 7370 Dour</p><div><span class="badge">🪑 Table ${TN}</span><span class="badge">📞 0483 43 22 39</span></div></div>
+<div class="hero">
+  <div style="font-size:10px;letter-spacing:2px;opacity:.7;text-transform:uppercase;margin-bottom:4px">Bienvenue chez</div>
+  <h1>Pitta-Snack Istanbul</h1>
+  <p>Place Verte 17, 7370 Dour</p>
+  <div><span class="badge">🪑 Table ${TN}</span><span class="badge">📞 0483 43 22 39</span></div>
+</div>
 <div class="sb"><div class="si"><span style="color:#999">🔍</span><input placeholder="Rechercher un plat..." oninput="rs(this.value)"/></div></div>
 <div class="cats">${M.map(x=>`<button class="cb${x.c===cat?' on':''}" onclick="cat='${x.c}';rC()">${x.i} ${x.c}</button>`).join('')}</div>
 <div class="sh"><h2>${c.i} ${c.c}</h2><span style="font-size:12px;color:#888">${c.items.length} articles</span></div>
@@ -259,82 +292,106 @@ function rs(v){
 function rCart(){
   const items=Object.entries(cart).map(([id,q])=>({...IM[id],q}));
   const t=ct();
-  return `<div class="ov" onclick="if(event.target.className==='ov'){co=false;rC()}"><div class="sh2"><div class="hnd"></div><h2 style="font-size:18px;font-weight:700;margin-bottom:16px">🛒 Votre commande — Table ${TN}</h2>${items.map(x=>`<div class="ci"><div><div style="font-size:14px;font-weight:600">${x.n}</div><div style="font-size:12px;color:#888">x${x.q} × ${x.p.toFixed(2)} €</div></div><div style="display:flex;align-items:center;gap:8px"><button class="qb" onclick="rem('${x.id}')" style="width:26px;height:26px;font-size:14px">−</button><span style="font-size:14px;font-weight:700">${x.q}</span><button class="qb p" onclick="add('${x.id}')" style="width:26px;height:26px;font-size:14px">+</button><span style="font-size:14px;font-weight:700;color:#C0392B;min-width:50px;text-align:right">${(x.p*x.q).toFixed(2)} €</span></div></div>`).join('')}<div class="ct"><span>Total</span><span>${t.toFixed(2)} €</span></div><textarea rows="2" placeholder="Remarques (allergies, cuisson, sans oignon...)" onchange="note=this.value">${note}</textarea><button class="ob" onclick="subO()" id="ob">Envoyer la commande →</button></div></div>`;
+  return `<div class="ov" onclick="if(event.target.className==='ov'){co=false;rC()}"><div class="sh2"><div class="hnd"></div><h2 style="font-size:18px;font-weight:700;margin-bottom:16px">🛒 Votre commande — Table ${TN}</h2>${items.map(x=>`<div class="ci"><div><div style="font-size:14px;font-weight:600">${x.n}</div><div style="font-size:12px;color:#888">x${x.q} × ${x.p.toFixed(2)} €</div></div><div style="display:flex;align-items:center;gap:8px"><button class="qb" onclick="rem('${x.id}')" style="width:26px;height:26px;font-size:14px">−</button><span style="font-size:14px;font-weight:700">${x.q}</span><button class="qb p" onclick="add('${x.id}')" style="width:26px;height:26px;font-size:14px">+</button><span style="font-size:14px;font-weight:700;color:#C0392B;min-width:52px;text-align:right">${(x.p*x.q).toFixed(2)} €</span></div></div>`).join('')}<div class="ctot"><span>Total</span><span>${t.toFixed(2)} €</span></div><textarea rows="2" placeholder="Remarques (allergies, cuisson, sans oignon...)" onchange="note=this.value">${note}</textarea><button class="ob" onclick="subO()" id="ob">Envoyer la commande →</button></div></div>`;
 }
 
 async function subO(){
-  const b=document.getElementById('ob');if(b){b.disabled=true;b.textContent='Envoi...';}
-  try{
-    if(!SB)throw new Error('no sb');
-    const items=Object.entries(cart).map(([id,q])=>({id,q}));
-    const total=Math.round(ct()*100)/100;
-    const{error}=await SB.from('orders').insert([{id:`CMD-${Date.now()}`,table_num:TN,status:'nouveau',items,note,total}]);
-    if(error)throw error;
-    cart={};note='';co=false;done=true;rC();
-  }catch(e){
-    if(b){b.disabled=false;b.textContent='Envoyer la commande →';}
-    alert('Erreur connexion. Vérifiez votre connexion internet et réessayez.');
-  }
+  const b=document.getElementById('ob');
+  if(b){b.disabled=true;b.textContent='Envoi en cours...';}
+  const items=Object.entries(cart).map(([id,q])=>({id,q}));
+  const ok=await dbInsert({id:`CMD-${Date.now()}`,table_num:TN,status:'nouveau',items:JSON.stringify(items),note,total:Math.round(ct()*100)/100});
+  if(ok){cart={};note='';co=false;done=true;rC();}
+  else{if(b){b.disabled=false;b.textContent='Envoyer la commande →';}alert('Erreur réseau. Réessayez dans quelques secondes.');}
 }
 
+// ── STAFF VIEW ──────────────────────────────────────────────────────
 async function loadStaff(){
   const el=document.getElementById('sv');
-  el.innerHTML='<div style="text-align:center;padding:40px;color:#888">Chargement...</div>';
-  // Wait for SB to load (max 5 seconds)
-  let tries=0;
-  while(!SB && tries<50){await new Promise(r=>setTimeout(r,100));tries++;}
-  try{
-    if(!SB)throw new Error('no sb');
-    const{data}=await SB.from('orders').select('*').order('created_at',{ascending:false});
-    orders=data||[];rS();
-    if(ch)SB.removeChannel(ch);
-    ch=SB.channel('rt').on('postgres_changes',{event:'*',schema:'public',table:'orders'},p=>{
-      if(p.eventType==='INSERT'){orders.unshift(p.new);showAl();}
-      else if(p.eventType==='UPDATE')orders=orders.map(o=>o.id===p.new.id?p.new:o);
-      else if(p.eventType==='DELETE')orders=orders.filter(o=>o.id!==p.old.id);
-      rS();
-    }).subscribe();
-  }catch(e){
-    el.innerHTML='<div style="text-align:center;padding:40px;color:#C0392B">Erreur de connexion Supabase</div>';
-  }
+  el.innerHTML='<div style="text-align:center;padding:40px;color:#888">⏳ Chargement des commandes...</div>';
+  orders=await dbGet();
+  rS();
 }
 
-function showAl(){const a=document.getElementById('al');a.style.display='block';setTimeout(()=>a.style.display='none',4000);}
+function startPoll(){
+  stopPoll();
+  pollTimer=setInterval(async()=>{
+    if(view!=='staff')return;
+    const prev=orders.length;
+    orders=await dbGet();
+    if(orders.length>prev){showAl();}
+    rS();
+  },4000);
+}
 
-async function updSt(id,s){if(SB)await SB.from('orders').update({status:s}).eq('id',id);}
-async function archOr(id){if(SB)await SB.from('orders').delete().eq('id',id);}
+function stopPoll(){
+  if(pollTimer){clearInterval(pollTimer);pollTimer=null;}
+}
+
+function showAl(){
+  const a=document.getElementById('al');
+  a.style.display='block';
+  setTimeout(()=>a.style.display='none',4000);
+}
+
+async function updSt(id,s){
+  await dbUpdate(id,{status:s});
+  orders=await dbGet();
+  rS();
+}
+
+async function archOr(id){
+  await dbDelete(id);
+  orders=orders.filter(o=>o.id!==id);
+  rS();
+}
 
 function rS(){
+  if(view!=='staff')return;
   const el=document.getElementById('sv');
-  const cn={n:orders.filter(o=>o.status==='nouveau').length,e:orders.filter(o=>o.status==='en-cours').length,p:orders.filter(o=>o.status==='pret').length};
-  el.innerHTML=`<div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:14px"><div><div style="font-size:17px;font-weight:800">Commandes en cours</div><div style="font-size:12px;color:#888">Pitta-Snack Istanbul — Dour</div></div><div style="display:flex;align-items:center;gap:6px;color:#16a34a;font-size:13px;font-weight:600"><span class="dot"></span>Live</div></div>
-<div class="sts"><div class="st" style="background:#fdecea"><div style="font-size:26px;font-weight:800;color:#C0392B">${cn.n}</div><div style="font-size:10px;font-weight:600;color:#C0392B;margin-top:2px">Nouvelles</div></div><div class="st" style="background:#fef3c7"><div style="font-size:26px;font-weight:800;color:#d97706">${cn.e}</div><div style="font-size:10px;font-weight:600;color:#d97706;margin-top:2px">En prép.</div></div><div class="st" style="background:#dcfce7"><div style="font-size:26px;font-weight:800;color:#16a34a">${cn.p}</div><div style="font-size:10px;font-weight:600;color:#16a34a;margin-top:2px">Prêtes</div></div></div>
-${orders.length===0?'<div class="em"><div style="font-size:40px;margin-bottom:10px">🍽️</div><div>Aucune commande pour l\'instant</div></div>':''}
+  const cn={
+    n:orders.filter(o=>o.status==='nouveau').length,
+    e:orders.filter(o=>o.status==='en-cours').length,
+    p:orders.filter(o=>o.status==='pret').length
+  };
+  el.innerHTML=`
+<div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:14px">
+  <div><div style="font-size:17px;font-weight:800">Commandes en cours</div><div style="font-size:12px;color:#888">Pitta-Snack Istanbul — Dour</div></div>
+  <div style="display:flex;align-items:center;color:#16a34a;font-size:13px;font-weight:600"><span class="dot"></span>Live</div>
+</div>
+<div class="sts">
+  <div class="st" style="background:#fdecea"><div style="font-size:26px;font-weight:800;color:#C0392B">${cn.n}</div><div style="font-size:10px;font-weight:600;color:#C0392B;margin-top:2px">Nouvelles</div></div>
+  <div class="st" style="background:#fef3c7"><div style="font-size:26px;font-weight:800;color:#d97706">${cn.e}</div><div style="font-size:10px;font-weight:600;color:#d97706;margin-top:2px">En prép.</div></div>
+  <div class="st" style="background:#dcfce7"><div style="font-size:26px;font-weight:800;color:#16a34a">${cn.p}</div><div style="font-size:10px;font-weight:600;color:#16a34a;margin-top:2px">Prêtes</div></div>
+</div>
+${orders.length===0?'<div class="em"><div style="font-size:40px;margin-bottom:10px">🍽️</div><div>Aucune commande pour l\'instant</div><div style="font-size:12px;color:#bbb;margin-top:4px">Actualisation toutes les 4 secondes</div></div>':''}
 ${orders.map(o=>{
   const bc={nouveau:'#C0392B','en-cours':'#d97706',pret:'#16a34a'}[o.status]||'#ccc';
   const b={nouveau:{bg:'#fdecea',c:'#922b21',l:'🔴 Nouveau'},'en-cours':{bg:'#fef3c7',c:'#92400e',l:'🟡 En préparation'},pret:{bg:'#dcfce7',c:'#166534',l:'🟢 Prête'}}[o.status]||{bg:'#eee',c:'#666',l:o.status};
   const t=new Date(o.created_at).toLocaleTimeString('fr-BE',{hour:'2-digit',minute:'2-digit'});
-  return `<div class="oc" style="border-left:4px solid ${bc}"><div class="oh"><div><div style="font-size:15px;font-weight:700">Table ${o.table_num} <span style="color:#aaa;font-weight:400;font-size:12px">— ${String(o.id).slice(-8)}</span></div><div style="font-size:12px;color:#888">⏱ ${t}</div></div><div class="sbg" style="background:${b.bg};color:${b.c}">${b.l}</div></div>
-<div class="oi">${(o.items||[]).map(it=>{const item=IM[it.id];return item?`<div class="ol"><span>${it.qty||it.q||1}× ${item.n}</span><span style="color:#888">${(item.p*(it.qty||it.q||1)).toFixed(2)} €</span></div>`:''}).join('')}${o.note?`<div class="on2">💬 ${o.note}</div>`:''}</div>
-<div class="of"><div style="font-size:14px;font-weight:700">Total : ${Number(o.total).toFixed(2)} €</div><div>${o.status==='nouveau'?`<button class="ac" style="background:#d97706" onclick="updSt('${o.id}','en-cours')">Accepter ✓</button>`:''}${o.status==='en-cours'?`<button class="ac" style="background:#16a34a" onclick="updSt('${o.id}','pret')">Prêt 🔔</button>`:''}${o.status==='pret'?`<button class="ac" style="background:#6b7280" onclick="archOr('${o.id}')">Archiver</button>`:''}</div></div></div>`;
+  const items=typeof o.items==='string'?JSON.parse(o.items):o.items;
+  return `<div class="oc" style="border-left:4px solid ${bc}">
+    <div class="oh">
+      <div><div style="font-size:15px;font-weight:700">Table ${o.table_num} <span style="color:#aaa;font-weight:400;font-size:12px">— ${String(o.id).slice(-8)}</span></div><div style="font-size:12px;color:#888">⏱ ${t}</div></div>
+      <div class="sbg" style="background:${b.bg};color:${b.c}">${b.l}</div>
+    </div>
+    <div class="oi">
+      ${items.map(it=>{const item=IM[it.id];return item?`<div class="ol"><span>${it.q||it.qty||1}× ${item.n}</span><span style="color:#888">${(item.p*(it.q||it.qty||1)).toFixed(2)} €</span></div>`:''}).join('')}
+      ${o.note?`<div class="onote">💬 ${o.note}</div>`:''}
+    </div>
+    <div class="of">
+      <div style="font-size:14px;font-weight:700">Total : ${Number(o.total).toFixed(2)} €</div>
+      <div>
+        ${o.status==='nouveau'?`<button class="ac" style="background:#d97706" onclick="updSt('${o.id}','en-cours')">Accepter ✓</button>`:''}
+        ${o.status==='en-cours'?`<button class="ac" style="background:#16a34a" onclick="updSt('${o.id}','pret')">Prêt 🔔</button>`:''}
+        ${o.status==='pret'?`<button class="ac" style="background:#6b7280" onclick="archOr('${o.id}')">Archiver</button>`:''}
+      </div>
+    </div>
+  </div>`;
 }).join('')}`;
 }
 
-// Render UI immediately — no waiting for Supabase
+// Start
 rC();
-
-// Load Supabase in background
-(function(){
-  const s=document.createElement('script');
-  s.src='https://unpkg.com/@supabase/supabase-js@2/dist/umd/supabase.js';
-  s.onload=function(){
-    SB=supabaseJs.createClient(
-      'https://cpeiszwucpcyvsrklmlr.supabase.co',
-      'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImNwZWlzend1Y3BjeXZzcmtsbWxyIiwicm9sZSI6ImFub24iLCJpYXQiOjE3Nzc1ODgyNzUsImV4cCI6MjA5MzE2NDI3NX0.89Nd63IZXSlQUJXlX-OiCZt7YPg6B0OkfkEawsmD85M'
-    );
-  };
-  document.head.appendChild(s);
-})();
 </script>
 </body>
 </html>
