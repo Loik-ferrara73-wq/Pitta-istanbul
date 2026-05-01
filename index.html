@@ -2,300 +2,336 @@
 <html lang="fr">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
-<title>Pitta-Snack Istanbul — Commander</title>
-<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Pitta-Snack Istanbul</title>
 <style>
-*{box-sizing:border-box;margin:0;padding:0;}
-body{font-family:'Segoe UI',system-ui,sans-serif;background:#f5f4f0;min-height:100vh;max-width:480px;margin:0 auto;}
-::-webkit-scrollbar{display:none;}
-.top-bar{display:flex;background:#1a1a1a;}
-.tab{flex:1;padding:13px 0;border:none;cursor:pointer;font-size:13px;font-weight:600;color:#888;background:transparent;}
-.tab.active{background:#C0392B;color:#fff;}
-.hero{background:linear-gradient(135deg,#8B1A1A,#C0392B);padding:20px 16px 16px;color:#fff;}
-.hero h1{font-size:22px;font-weight:800;}
-.badge{display:inline-flex;background:rgba(255,255,255,0.2);border-radius:20px;padding:5px 14px;font-size:12px;font-weight:700;margin-top:12px;margin-right:8px;}
-.search-wrap{padding:10px 12px;background:#fff;border-bottom:1px solid #eee;}
-.search-inner{display:flex;align-items:center;background:#f5f4f0;border-radius:10px;padding:8px 12px;gap:8px;}
-.search-inner input{border:none;background:none;outline:none;flex:1;font-size:14px;color:#333;}
-.cats{display:flex;gap:8px;overflow-x:auto;padding:10px 12px;background:#fff;border-bottom:1px solid #eee;scrollbar-width:none;}
-.cat-btn{white-space:nowrap;padding:6px 14px;border-radius:20px;font-size:12px;font-weight:600;border:1.5px solid #e5e7eb;background:#fff;color:#555;cursor:pointer;}
-.cat-btn.active{background:#C0392B;color:#fff;border-color:#C0392B;}
-.sec-hdr{padding:14px 16px 8px;display:flex;justify-content:space-between;align-items:center;}
-.sec-hdr h2{font-size:16px;font-weight:700;}
-.item{background:#fff;padding:14px 16px;display:flex;align-items:center;gap:12px;border-bottom:1px solid #f0f0f0;}
-.iname{font-size:14px;font-weight:600;color:#1a1a1a;}
-.idesc{font-size:12px;color:#888;margin-top:2px;}
-.iprice{font-size:15px;font-weight:700;color:#C0392B;margin-top:5px;}
-.add-btn{width:36px;height:36px;border-radius:50%;background:#C0392B;border:none;color:#fff;font-size:22px;cursor:pointer;flex-shrink:0;line-height:1;}
-.qctrl{display:flex;align-items:center;gap:8px;flex-shrink:0;}
-.qbtn{width:30px;height:30px;border-radius:50%;border:2px solid #C0392B;background:#fff;color:#C0392B;font-size:16px;cursor:pointer;line-height:1;}
-.qbtn.p{background:#C0392B;color:#fff;border:none;}
-.qnum{font-size:15px;font-weight:700;min-width:20px;text-align:center;}
-.cart-bar{position:fixed;bottom:16px;left:50%;transform:translateX(-50%);width:calc(100% - 32px);max-width:448px;background:linear-gradient(135deg,#8B1A1A,#C0392B);border-radius:14px;padding:14px 18px;display:flex;align-items:center;justify-content:space-between;cursor:pointer;box-shadow:0 4px 20px rgba(192,57,43,0.4);z-index:50;}
-.ccount{background:rgba(255,255,255,0.25);border-radius:20px;padding:2px 10px;font-size:12px;font-weight:700;color:#fff;margin-right:10px;}
-.cart-bar span{color:#fff;font-weight:600;font-size:14px;}
-.ctotal{color:#fff;font-size:16px;font-weight:700;}
-.overlay{position:fixed;inset:0;background:rgba(0,0,0,0.5);z-index:100;display:flex;align-items:flex-end;justify-content:center;}
-.sheet{background:#fff;border-radius:20px 20px 0 0;width:100%;max-width:480px;padding:20px;max-height:85vh;overflow-y:auto;}
-.handle{width:40px;height:4px;background:#ddd;border-radius:2px;margin:0 auto 18px;}
-.cart-item{display:flex;justify-content:space-between;align-items:center;padding:10px 0;border-bottom:1px solid #f0f0f0;}
-.cart-total{display:flex;justify-content:space-between;padding:14px 0;font-weight:700;font-size:16px;border-top:2px solid #1a1a1a;margin-top:8px;}
-.cart-total span:last-child{color:#C0392B;}
-textarea{width:100%;padding:10px 12px;border:1.5px solid #e5e7eb;border-radius:10px;font-size:14px;resize:none;font-family:inherit;outline:none;margin-bottom:12px;}
-.obtn{width:100%;background:linear-gradient(135deg,#8B1A1A,#C0392B);color:#fff;border:none;border-radius:12px;padding:15px;font-size:15px;font-weight:700;cursor:pointer;}
-.obtn:disabled{background:#ccc;cursor:not-allowed;}
-.success{padding:32px;text-align:center;background:#fff;min-height:calc(100vh - 46px);display:flex;flex-direction:column;align-items:center;justify-content:center;}
-.alert-bar{background:#16a34a;color:#fff;padding:12px 16px;text-align:center;font-size:14px;font-weight:700;display:none;}
-.stats{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-bottom:14px;}
-.stat{border-radius:12px;padding:12px 10px;text-align:center;}
-.ocard{background:#fff;border-radius:14px;overflow:hidden;border:1px solid #e5e7eb;margin-bottom:10px;}
-.ohead{display:flex;justify-content:space-between;align-items:center;padding:12px 14px;border-bottom:1px solid #f0f0f0;}
-.sbadge{border-radius:20px;padding:4px 12px;font-size:11px;font-weight:700;}
-.oitems{padding:10px 14px;}
-.oline{display:flex;justify-content:space-between;font-size:13px;padding:2px 0;}
-.onote{font-size:12px;color:#666;font-style:italic;margin-top:6px;background:#fffbeb;border-radius:6px;padding:4px 8px;}
-.ofoot{display:flex;justify-content:space-between;align-items:center;padding:10px 14px;border-top:1px solid #f0f0f0;background:#fafafa;}
-.abtn{border:none;border-radius:8px;padding:6px 14px;font-size:12px;font-weight:700;cursor:pointer;color:#fff;}
-.empty{text-align:center;padding:48px;color:#999;}
-@keyframes pulse{0%,100%{opacity:1}50%{opacity:0.3}}
-.dot{width:8px;height:8px;border-radius:50%;background:#16a34a;animation:pulse 1.5s infinite;display:inline-block;}
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:system-ui,sans-serif;background:#f5f4f0;max-width:480px;margin:0 auto}
+.top{display:flex;background:#1a1a1a}
+.tab{flex:1;padding:13px 0;border:none;cursor:pointer;font-size:13px;font-weight:600;color:#888;background:transparent}
+.tab.on{background:#C0392B;color:#fff}
+.hero{background:linear-gradient(135deg,#8B1A1A,#C0392B);padding:20px 16px;color:#fff}
+.hero h1{font-size:21px;font-weight:800}
+.hero p{font-size:12px;opacity:.75;margin-top:2px}
+.badge{display:inline-block;background:rgba(255,255,255,.2);border-radius:20px;padding:5px 14px;font-size:12px;font-weight:700;margin-top:10px;margin-right:6px}
+.sb{padding:10px 12px;background:#fff;border-bottom:1px solid #eee}
+.si{display:flex;align-items:center;background:#f5f4f0;border-radius:10px;padding:8px 12px;gap:8px}
+.si input{border:none;background:none;outline:none;flex:1;font-size:14px}
+.cats{display:flex;gap:8px;overflow-x:auto;padding:10px 12px;background:#fff;border-bottom:1px solid #eee;scrollbar-width:none}
+.cats::-webkit-scrollbar{display:none}
+.cb{white-space:nowrap;padding:6px 14px;border-radius:20px;font-size:12px;font-weight:600;border:1.5px solid #e5e7eb;background:#fff;color:#555;cursor:pointer}
+.cb.on{background:#C0392B;color:#fff;border-color:#C0392B}
+.sh{padding:12px 16px 8px;display:flex;justify-content:space-between;align-items:center}
+.sh h2{font-size:15px;font-weight:700}
+.it{background:#fff;padding:14px 16px;display:flex;align-items:center;gap:12px;border-bottom:1px solid #f0f0f0}
+.ii{flex:1}
+.in{font-size:14px;font-weight:600;color:#1a1a1a}
+.id{font-size:12px;color:#888;margin-top:2px}
+.ip{font-size:15px;font-weight:700;color:#C0392B;margin-top:4px}
+.ab{width:36px;height:36px;border-radius:50%;background:#C0392B;border:none;color:#fff;font-size:22px;cursor:pointer;flex-shrink:0;display:flex;align-items:center;justify-content:center}
+.qc{display:flex;align-items:center;gap:8px;flex-shrink:0}
+.qb{width:30px;height:30px;border-radius:50%;border:2px solid #C0392B;background:#fff;color:#C0392B;font-size:16px;cursor:pointer;display:flex;align-items:center;justify-content:center}
+.qb.p{background:#C0392B;color:#fff;border:none}
+.qn{font-size:15px;font-weight:700;min-width:20px;text-align:center}
+.cb2{position:fixed;bottom:16px;left:50%;transform:translateX(-50%);width:calc(100% - 32px);max-width:448px;background:linear-gradient(135deg,#8B1A1A,#C0392B);border-radius:14px;padding:14px 18px;display:flex;align-items:center;justify-content:space-between;cursor:pointer;box-shadow:0 4px 20px rgba(192,57,43,.4);z-index:50}
+.cc{background:rgba(255,255,255,.25);border-radius:20px;padding:2px 10px;font-size:12px;font-weight:700;color:#fff;margin-right:8px}
+.ov{position:fixed;inset:0;background:rgba(0,0,0,.5);z-index:100;display:flex;align-items:flex-end;justify-content:center}
+.sh2{background:#fff;border-radius:20px 20px 0 0;width:100%;max-width:480px;padding:20px;max-height:85vh;overflow-y:auto}
+.hnd{width:40px;height:4px;background:#ddd;border-radius:2px;margin:0 auto 16px}
+.ci{display:flex;justify-content:space-between;align-items:center;padding:10px 0;border-bottom:1px solid #f0f0f0}
+.ct{display:flex;justify-content:space-between;padding:14px 0;font-weight:700;font-size:16px;border-top:2px solid #1a1a1a;margin-top:8px}
+.ct span:last-child{color:#C0392B}
+textarea{width:100%;padding:10px 12px;border:1.5px solid #e5e7eb;border-radius:10px;font-size:14px;resize:none;font-family:inherit;outline:none;margin-bottom:12px}
+.ob{width:100%;background:linear-gradient(135deg,#8B1A1A,#C0392B);color:#fff;border:none;border-radius:12px;padding:15px;font-size:15px;font-weight:700;cursor:pointer}
+.ob:disabled{background:#ccc;cursor:not-allowed}
+.ok{padding:32px;text-align:center;background:#fff;min-height:calc(100vh - 46px);display:flex;flex-direction:column;align-items:center;justify-content:center}
+.al{background:#16a34a;color:#fff;padding:12px 16px;text-align:center;font-size:14px;font-weight:700;display:none}
+.sts{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-bottom:14px}
+.st{border-radius:12px;padding:12px 10px;text-align:center}
+.oc{background:#fff;border-radius:14px;overflow:hidden;border:1px solid #e5e7eb;margin-bottom:10px}
+.oh{display:flex;justify-content:space-between;align-items:center;padding:12px 14px;border-bottom:1px solid #f0f0f0}
+.sbg{border-radius:20px;padding:4px 12px;font-size:11px;font-weight:700}
+.oi{padding:10px 14px}
+.ol{display:flex;justify-content:space-between;font-size:13px;padding:2px 0}
+.on2{font-size:12px;color:#666;font-style:italic;margin-top:6px;background:#fffbeb;border-radius:6px;padding:4px 8px}
+.of{display:flex;justify-content:space-between;align-items:center;padding:10px 14px;border-top:1px solid #f0f0f0;background:#fafafa}
+.ac{border:none;border-radius:8px;padding:6px 14px;font-size:12px;font-weight:700;cursor:pointer;color:#fff}
+.em{text-align:center;padding:48px;color:#999}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:.3}}
+.dot{width:8px;height:8px;border-radius:50%;background:#16a34a;animation:pulse 1.5s infinite;display:inline-block}
 </style>
 </head>
 <body>
-<div class="top-bar">
-  <button class="tab active" onclick="setView('client')" id="tc">🍽️ Menu & Commander</button>
-  <button class="tab" onclick="setView('staff')" id="ts">📋 Dashboard</button>
+<div class="top">
+  <button class="tab on" onclick="sv('client')" id="tc">🍽️ Menu & Commander</button>
+  <button class="tab" onclick="sv('staff')" id="ts">📋 Dashboard</button>
 </div>
-<div class="alert-bar" id="ab">🔔 Nouvelle commande reçue !</div>
+<div class="al" id="al">🔔 Nouvelle commande reçue !</div>
 <div id="cv"></div>
 <div id="sv" style="display:none;padding:14px"></div>
 
 <script>
-const SB = supabaseJs.createClient(
-  "https://cpeiszwucpcyvsrklmlr.supabase.co",
-  "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImNwZWlzend1Y3BjeXZzcmtsbWxyIiwicm9sZSI6ImFub24iLCJpYXQiOjE3Nzc1ODgyNzUsImV4cCI6MjA5MzE2NDI3NX0.89Nd63IZXSlQUJXlX-OiCZt7YPg6B0OkfkEawsmD85M"
-);
-const TBL = parseInt(new URLSearchParams(location.search).get('table'))||3;
+const TN=parseInt(new URLSearchParams(location.search).get('table'))||3;
 const M=[
-{cat:"Menus",icon:"🎯",items:[
-{id:"m1",name:"Menu Grand Durum Pita",desc:"Grand durum + frites + boisson",price:15.50},
-{id:"m2",name:"Menu Tacos",desc:"Tacos + frites + boisson",price:15.00},
-{id:"m3",name:"Menu Petit Durum",desc:"Petit durum + frites + boisson",price:12.50},
-{id:"m4",name:"Menu Hamburger",desc:"Hamburger + frites + boisson",price:10.00},
+{c:"Menus",i:"🎯",items:[
+{id:"m1",n:"Menu Grand Durum Pita",d:"Grand durum + frites + boisson",p:15.50},
+{id:"m2",n:"Menu Tacos",d:"Tacos + frites + boisson",p:15.00},
+{id:"m3",n:"Menu Petit Durum",d:"Petit durum + frites + boisson",p:12.50},
+{id:"m4",n:"Menu Hamburger",d:"Hamburger + frites + boisson",p:10.00},
 ]},
-{cat:"Menus Enfants",icon:"👶",items:[
-{id:"me1",name:"Menu Enfant Hamburger",desc:"Hamburger + frites + boisson",price:12.50},
-{id:"me2",name:"Menu Enfant Snack",desc:"Snack + frites + boisson",price:12.00},
-{id:"me3",name:"Menu Enfant Ravier Pita",desc:"Ravier pita + frites + boisson",price:12.00},
+{c:"Menus Enfants",i:"👶",items:[
+{id:"me1",n:"Menu Enfant Hamburger",d:"Hamburger + frites + boisson",p:12.50},
+{id:"me2",n:"Menu Enfant Snack",d:"Snack + frites + boisson",p:12.00},
+{id:"me3",n:"Menu Enfant Ravier Pita",d:"Ravier pita + frites + boisson",p:12.00},
 ]},
-{cat:"Assiettes",icon:"🍽️",items:[
-{id:"a1",name:"Assiette du Chef",desc:"Boeuf grillé, frites, salade",price:15.00},
-{id:"a2",name:"Assiette Poulet",desc:"Poulet grillé, frites, salade",price:15.00},
-{id:"a3",name:"Assiette Hawaïenne",desc:"Avec ananas, frites, salade",price:16.00},
-{id:"a4",name:"Assiette Mexicaine",desc:"Maïs, piments, frites, salade",price:17.00},
-{id:"a5",name:"Assiette Mixte",desc:"Boeuf & poulet, frites, salade",price:16.00},
-{id:"a6",name:"Assiette Brochette Poulet",desc:"2 brochettes poulet, frites",price:18.00},
-{id:"a7",name:"Assiette Brochette Boeuf",desc:"2 brochettes boeuf, frites",price:18.00},
-{id:"a8",name:"Assiette Merguez",desc:"Merguez, frites, salade",price:18.00},
-{id:"a9",name:"Assiette Köfte",desc:"Köfte maison, frites, salade",price:17.50},
-{id:"a10",name:"Assiette Falafel",desc:"Falafels, frites, salade, sauce",price:15.00},
-{id:"a11",name:"Assiette Calamars",desc:"Calamars frits, frites, salade",price:15.50},
-{id:"a12",name:"Assiette Hamburger",desc:"Hamburger, frites, salade",price:13.50},
-{id:"a13",name:"Assiette du Patron",desc:"La spécialité maison",price:20.00},
+{c:"Assiettes",i:"🍽️",items:[
+{id:"a1",n:"Assiette du Chef",d:"Boeuf grillé, frites, salade",p:15.00},
+{id:"a2",n:"Assiette Poulet",d:"Poulet grillé, frites, salade",p:15.00},
+{id:"a3",n:"Assiette Hawaïenne",d:"Avec ananas, frites, salade",p:16.00},
+{id:"a4",n:"Assiette Mexicaine",d:"Maïs, piments, frites, salade",p:17.00},
+{id:"a5",n:"Assiette Mixte",d:"Boeuf & poulet, frites, salade",p:16.00},
+{id:"a6",n:"Assiette Brochette Poulet",d:"2 brochettes poulet, frites",p:18.00},
+{id:"a7",n:"Assiette Brochette Boeuf",d:"2 brochettes boeuf, frites",p:18.00},
+{id:"a8",n:"Assiette Merguez",d:"Merguez, frites, salade",p:18.00},
+{id:"a9",n:"Assiette Köfte",d:"Köfte maison, frites, salade",p:17.50},
+{id:"a10",n:"Assiette Falafel",d:"Falafels, frites, salade, sauce",p:15.00},
+{id:"a11",n:"Assiette Calamars",d:"Calamars frits, frites, salade",p:15.50},
+{id:"a12",n:"Assiette Hamburger",d:"Hamburger, frites, salade",p:13.50},
+{id:"a13",n:"Assiette du Patron",d:"La spécialité maison",p:20.00},
 ]},
-{cat:"Kapsalons",icon:"🥗",items:[
-{id:"k1",name:"Kapsalon Boeuf",desc:"Frites, boeuf döner, salade, gouda fondu",price:14.50},
-{id:"k2",name:"Kapsalon Poulet",desc:"Frites, poulet döner, salade, gouda fondu",price:14.50},
-{id:"k3",name:"Kapsalon Mixte",desc:"Frites, mixte, salade, gouda fondu",price:15.00},
-{id:"k4",name:"Kapsalon Hamburger",desc:"Frites, hamburger, salade, gouda fondu",price:14.00},
-{id:"k5",name:"Kapsalon Mexicanos",desc:"Frites, mexicanos, salade, gouda fondu",price:14.00},
-{id:"k6",name:"Kapsalon Brochettes Poulet",desc:"Frites, brochettes poulet, salade",price:15.00},
-{id:"k7",name:"Kapsalon Brochettes Boeuf",desc:"Frites, brochettes boeuf, salade",price:15.00},
+{c:"Kapsalons",i:"🥗",items:[
+{id:"k1",n:"Kapsalon Boeuf",d:"Frites, boeuf döner, salade, gouda fondu",p:14.50},
+{id:"k2",n:"Kapsalon Poulet",d:"Frites, poulet döner, salade, gouda fondu",p:14.50},
+{id:"k3",n:"Kapsalon Mixte",d:"Frites, mixte, salade, gouda fondu",p:15.00},
+{id:"k4",n:"Kapsalon Hamburger",d:"Frites, hamburger, salade, gouda fondu",p:14.00},
+{id:"k5",n:"Kapsalon Mexicanos",d:"Frites, mexicanos, salade, gouda fondu",p:14.00},
+{id:"k6",n:"Kapsalon Brochettes Poulet",d:"Frites, brochettes poulet, salade",p:15.00},
+{id:"k7",n:"Kapsalon Brochettes Boeuf",d:"Frites, brochettes boeuf, salade",p:15.00},
 ]},
-{cat:"Durums",icon:"🌯",items:[
-{id:"d1",name:"Durum du Chef",desc:"Boeuf döner, crudités, sauce maison",price:10.00},
-{id:"d2",name:"Durum Poulet",desc:"Poulet döner, crudités, sauce",price:10.00},
-{id:"d3",name:"Durum Mixte",desc:"Boeuf & poulet, crudités, sauce",price:10.50},
-{id:"d4",name:"Durum Hawaïen",desc:"Avec ananas, crudités, sauce",price:12.00},
-{id:"d5",name:"Durum Mexicain",desc:"Maïs, piments, crudités, sauce",price:12.00},
-{id:"d6",name:"Durum Végétarien",desc:"Légumes grillés, crudités, sauce",price:10.00},
-{id:"d7",name:"Durum Mulki",desc:"2 pièces, crudités, sauce",price:11.00},
-{id:"d8",name:"Durum Hamburger",desc:"Steak haché, crudités, sauce",price:10.00},
-{id:"d9",name:"Durum Köfte",desc:"Köfte maison, crudités, sauce",price:12.00},
-{id:"d10",name:"Durum Falafel",desc:"Falafels, crudités, sauce tahini",price:11.00},
-{id:"d11",name:"Durum Fricadelle",desc:"Fricadelle, crudités, sauce",price:10.00},
-{id:"d12",name:"Mega Durum",desc:"Le grand format, double garniture",price:16.00},
+{c:"Durums",i:"🌯",items:[
+{id:"d1",n:"Durum du Chef",d:"Boeuf döner, crudités, sauce maison",p:10.00},
+{id:"d2",n:"Durum Poulet",d:"Poulet döner, crudités, sauce",p:10.00},
+{id:"d3",n:"Durum Mixte",d:"Boeuf & poulet, crudités, sauce",p:10.50},
+{id:"d4",n:"Durum Hawaïen",d:"Avec ananas, crudités, sauce",p:12.00},
+{id:"d5",n:"Durum Mexicain",d:"Maïs, piments, crudités, sauce",p:12.00},
+{id:"d6",n:"Durum Végétarien",d:"Légumes grillés, crudités, sauce",p:10.00},
+{id:"d7",n:"Durum Mulki",d:"2 pièces, crudités, sauce",p:11.00},
+{id:"d8",n:"Durum Hamburger",d:"Steak haché, crudités, sauce",p:10.00},
+{id:"d9",n:"Durum Köfte",d:"Köfte maison, crudités, sauce",p:12.00},
+{id:"d10",n:"Durum Falafel",d:"Falafels, crudités, sauce tahini",p:11.00},
+{id:"d11",n:"Durum Fricadelle",d:"Fricadelle, crudités, sauce",p:10.00},
+{id:"d12",n:"Mega Durum",d:"Le grand format, double garniture",p:16.00},
 ]},
-{cat:"Pains Pita",icon:"🥙",items:[
-{id:"pp1",name:"Pain Pita du Chef",desc:"Boeuf döner, crudités, sauce maison",price:10.50},
-{id:"pp2",name:"Pain Pita Poulet",desc:"Poulet döner, crudités, sauce",price:10.50},
-{id:"pp3",name:"Pain Pita Mixte",desc:"Boeuf & poulet, crudités, sauce",price:10.50},
-{id:"pp4",name:"Pain Pita Hawaïenne",desc:"Avec ananas, crudités, sauce",price:11.00},
-{id:"pp5",name:"Pain Pita Mexicaine",desc:"Maïs, piments, crudités, sauce",price:11.00},
-{id:"pp6",name:"Pain Pita Mulki",desc:"Garniture spéciale, crudités",price:10.50},
-{id:"pp7",name:"Pain Pita Hamburger",desc:"Steak haché, crudités, sauce",price:10.00},
-{id:"pp8",name:"Pain Pita Köfte",desc:"Köfte maison, crudités, sauce",price:11.50},
-{id:"pp9",name:"Pain Pita Falafel",desc:"Falafels, crudités, sauce tahini",price:10.50},
-{id:"pp10",name:"Pain Pita Végétarienne",desc:"Légumes grillés, crudités, sauce",price:9.00},
+{c:"Pains Pita",i:"🥙",items:[
+{id:"pp1",n:"Pain Pita du Chef",d:"Boeuf döner, crudités, sauce maison",p:10.50},
+{id:"pp2",n:"Pain Pita Poulet",d:"Poulet döner, crudités, sauce",p:10.50},
+{id:"pp3",n:"Pain Pita Mixte",d:"Boeuf & poulet, crudités, sauce",p:10.50},
+{id:"pp4",n:"Pain Pita Hawaïenne",d:"Avec ananas, crudités, sauce",p:11.00},
+{id:"pp5",n:"Pain Pita Mexicaine",d:"Maïs, piments, crudités, sauce",p:11.00},
+{id:"pp6",n:"Pain Pita Mulki",d:"Garniture spéciale, crudités",p:10.50},
+{id:"pp7",n:"Pain Pita Hamburger",d:"Steak haché, crudités, sauce",p:10.00},
+{id:"pp8",n:"Pain Pita Köfte",d:"Köfte maison, crudités, sauce",p:11.50},
+{id:"pp9",n:"Pain Pita Falafel",d:"Falafels, crudités, sauce tahini",p:10.50},
+{id:"pp10",n:"Pain Pita Végétarienne",d:"Légumes grillés, crudités, sauce",p:9.00},
 ]},
-{cat:"Mitraillettes",icon:"🥖",items:[
-{id:"mi1",name:"Mitraillette Pitta Boeuf",desc:"Baguette, boeuf döner, frites",price:11.50},
-{id:"mi2",name:"Mitraillette Pitta Poulet",desc:"Baguette, poulet döner, frites",price:11.50},
-{id:"mi3",name:"Mitraillette Pitta Mixte",desc:"Baguette, mixte, frites",price:11.50},
-{id:"mi4",name:"Mitraillette Chasseur",desc:"Baguette, chasseur, frites",price:12.00},
-{id:"mi5",name:"Mitraillette Brochette Poulet",desc:"Baguette, brochette poulet, frites",price:11.50},
-{id:"mi6",name:"Mitraillette Brochette Boeuf",desc:"Baguette, brochette boeuf, frites",price:13.00},
-{id:"mi7",name:"Mitraillette Merguez",desc:"Baguette, merguez, frites",price:13.00},
-{id:"mi8",name:"Mitraillette Fricadelle",desc:"Baguette, fricadelle, frites",price:10.00},
-{id:"mi9",name:"Mitraillette Boulette",desc:"Baguette, boulette, frites",price:11.00},
-{id:"mi10",name:"Mitraillette Hamburger",desc:"Baguette, hamburger, frites",price:11.00},
+{c:"Mitraillettes",i:"🥖",items:[
+{id:"mi1",n:"Mitraillette Pitta Boeuf",d:"Baguette, boeuf döner, frites",p:11.50},
+{id:"mi2",n:"Mitraillette Pitta Poulet",d:"Baguette, poulet döner, frites",p:11.50},
+{id:"mi3",n:"Mitraillette Pitta Mixte",d:"Baguette, mixte, frites",p:11.50},
+{id:"mi4",n:"Mitraillette Chasseur",d:"Baguette, chasseur, frites",p:12.00},
+{id:"mi5",n:"Mitraillette Brochette Poulet",d:"Baguette, brochette poulet, frites",p:11.50},
+{id:"mi6",n:"Mitraillette Brochette Boeuf",d:"Baguette, brochette boeuf, frites",p:13.00},
+{id:"mi7",n:"Mitraillette Merguez",d:"Baguette, merguez, frites",p:13.00},
+{id:"mi8",n:"Mitraillette Fricadelle",d:"Baguette, fricadelle, frites",p:10.00},
+{id:"mi9",n:"Mitraillette Boulette",d:"Baguette, boulette, frites",p:11.00},
+{id:"mi10",n:"Mitraillette Hamburger",d:"Baguette, hamburger, frites",p:11.00},
 ]},
-{cat:"Tacos",icon:"🌮",items:[
-{id:"t1",name:"Tacos Viande",desc:"Galette, viande döner, sauce",price:10.00},
-{id:"t2",name:"Tacos Poulet",desc:"Galette, poulet döner, sauce",price:10.00},
-{id:"t3",name:"Tacos Mix",desc:"Galette, viande mixte, sauce",price:11.00},
-{id:"t4",name:"Tacos Köfte",desc:"Galette, köfte maison, sauce",price:12.00},
-{id:"t5",name:"Tacos Merguez",desc:"Galette, merguez, sauce",price:12.00},
-{id:"t6",name:"Tacos Tenders",desc:"Galette, tenders de poulet, sauce",price:12.00},
-{id:"t7",name:"Tacos Falafel",desc:"Galette, falafels, sauce tahini",price:12.00},
-{id:"t8",name:"Tacos Cordon-Bleu",desc:"Galette, cordon bleu, sauce",price:13.00},
-{id:"t9",name:"Tacos XL Cordons-Bleu",desc:"Format XL, double cordon bleu",price:15.00},
+{c:"Tacos",i:"🌮",items:[
+{id:"t1",n:"Tacos Viande",d:"Galette, viande döner, sauce",p:10.00},
+{id:"t2",n:"Tacos Poulet",d:"Galette, poulet döner, sauce",p:10.00},
+{id:"t3",n:"Tacos Mix",d:"Galette, viande mixte, sauce",p:11.00},
+{id:"t4",n:"Tacos Köfte",d:"Galette, köfte maison, sauce",p:12.00},
+{id:"t5",n:"Tacos Merguez",d:"Galette, merguez, sauce",p:12.00},
+{id:"t6",n:"Tacos Tenders",d:"Galette, tenders de poulet, sauce",p:12.00},
+{id:"t7",n:"Tacos Falafel",d:"Galette, falafels, sauce tahini",p:12.00},
+{id:"t8",n:"Tacos Cordon-Bleu",d:"Galette, cordon bleu, sauce",p:13.00},
+{id:"t9",n:"Tacos XL Cordons-Bleu",d:"Format XL, double cordon bleu",p:15.00},
 ]},
-{cat:"Hamburgers",icon:"🍔",items:[
-{id:"h1",name:"Hamburger Classic",desc:"Steak boeuf, salade, tomate, cornichon",price:5.00},
-{id:"h2",name:"Cheeseburger",desc:"Steak boeuf, cheddar, sauce maison",price:6.00},
-{id:"h3",name:"Chicken Burger",desc:"Escalope de poulet, salade, mayo",price:6.00},
-{id:"h4",name:"Fish Burger",desc:"Poisson pané, salade, sauce tartare",price:6.00},
-{id:"h5",name:"Mulki Burger",desc:"Viande spéciale, sauce signature",price:6.00},
-{id:"h6",name:"Köfte Burger",desc:"Köfte maison, crudités, sauce",price:6.50},
-{id:"h7",name:"Double Burger",desc:"Double steak boeuf, double fromage",price:7.00},
-{id:"h8",name:"Géant Burger",desc:"Steak XXL, garniture complète",price:6.50},
+{c:"Hamburgers",i:"🍔",items:[
+{id:"h1",n:"Hamburger Classic",d:"Steak boeuf, salade, tomate, cornichon",p:5.00},
+{id:"h2",n:"Cheeseburger",d:"Steak boeuf, cheddar, sauce maison",p:6.00},
+{id:"h3",n:"Chicken Burger",d:"Escalope de poulet, salade, mayo",p:6.00},
+{id:"h4",n:"Fish Burger",d:"Poisson pané, salade, sauce tartare",p:6.00},
+{id:"h5",n:"Mulki Burger",d:"Viande spéciale, sauce signature",p:6.00},
+{id:"h6",n:"Köfte Burger",d:"Köfte maison, crudités, sauce",p:6.50},
+{id:"h7",n:"Double Burger",d:"Double steak boeuf, double fromage",p:7.00},
+{id:"h8",n:"Géant Burger",d:"Steak XXL, garniture complète",p:6.50},
 ]},
-{cat:"Snacks",icon:"🍗",items:[
-{id:"sn1",name:"Fricadelle",desc:"Saucisse de viande grillée",price:3.50},
-{id:"sn2",name:"Boulette",desc:"Boulette de viande sauce tomate",price:3.50},
-{id:"sn3",name:"Brochette de Poulet",desc:"1 brochette de poulet marinée",price:6.00},
-{id:"sn4",name:"Brochette de Boeuf",desc:"1 brochette de boeuf marinée",price:6.00},
-{id:"sn5",name:"Merguez",desc:"1 merguez grillée",price:2.50},
-{id:"sn6",name:"Köfte",desc:"1 köfte maison grillée",price:2.50},
-{id:"sn7",name:"Croquette de Fromage",desc:"Croquette fromage fondu",price:3.00},
-{id:"sn8",name:"Chicken Dips",desc:"5 pièces de poulet croustillant",price:4.00},
-{id:"sn9",name:"Nuggets",desc:"5 nuggets de poulet",price:4.00},
-{id:"sn10",name:"Tenders",desc:"3 tenders croustillants",price:7.50},
-{id:"sn11",name:"Mini Loempia",desc:"5 petits rouleaux de printemps",price:4.00},
-{id:"sn12",name:"Pilon",desc:"Pilon de poulet croustillant",price:5.20},
+{c:"Snacks",i:"🍗",items:[
+{id:"sn1",n:"Fricadelle",d:"Saucisse de viande grillée",p:3.50},
+{id:"sn2",n:"Boulette",d:"Boulette de viande sauce tomate",p:3.50},
+{id:"sn3",n:"Brochette de Poulet",d:"1 brochette de poulet marinée",p:6.00},
+{id:"sn4",n:"Brochette de Boeuf",d:"1 brochette de boeuf marinée",p:6.00},
+{id:"sn5",n:"Merguez",d:"1 merguez grillée",p:2.50},
+{id:"sn6",n:"Köfte",d:"1 köfte maison grillée",p:2.50},
+{id:"sn7",n:"Croquette de Fromage",d:"Croquette fromage fondu",p:3.00},
+{id:"sn8",n:"Chicken Dips",d:"5 pièces croustillantes",p:4.00},
+{id:"sn9",n:"Nuggets",d:"5 nuggets de poulet",p:4.00},
+{id:"sn10",n:"Tenders",d:"3 tenders croustillants",p:7.50},
+{id:"sn11",n:"Mini Loempia",d:"5 petits rouleaux de printemps",p:4.00},
+{id:"sn12",n:"Pilon",d:"Pilon de poulet croustillant",p:5.20},
 ]},
-{cat:"Frites",icon:"🍟",items:[
-{id:"f1",name:"Frites Petite",desc:"Portion petite, frites maison",price:4.00},
-{id:"f2",name:"Frites Grande",desc:"Grande portion, frites maison",price:4.50},
+{c:"Frites",i:"🍟",items:[
+{id:"f1",n:"Frites Petite",d:"Portion petite, frites maison",p:4.00},
+{id:"f2",n:"Frites Grande",d:"Grande portion, frites maison",p:4.50},
 ]},
-{cat:"Sauces",icon:"🥣",items:[
-{id:"sa1",name:"Mayonnaise",desc:"Classique",price:1.00},
-{id:"sa2",name:"Andalouse",desc:"Sauce tomate-mayo épicée",price:1.00},
-{id:"sa3",name:"Barbecue",desc:"Fumée et sucrée",price:1.00},
-{id:"sa4",name:"Samouraï",desc:"Piquante et fumée",price:1.00},
-{id:"sa5",name:"Cocktail",desc:"Rose crémeuse",price:1.00},
-{id:"sa6",name:"Sauce à l'Ail",desc:"Ail frais et crème",price:1.00},
-{id:"sa7",name:"Harissa",desc:"Piment rouge — très piquante",price:1.00},
-{id:"sa8",name:"Algérienne",desc:"Sauce épicée nord-africaine",price:1.00},
-{id:"sa9",name:"Tartare",desc:"Crème, cornichons, câpres",price:1.00},
-{id:"sa10",name:"Ketchup",desc:"Classique",price:1.00},
+{c:"Sauces",i:"🥣",items:[
+{id:"sa1",n:"Mayonnaise",d:"Classique",p:1.00},
+{id:"sa2",n:"Andalouse",d:"Sauce tomate-mayo épicée",p:1.00},
+{id:"sa3",n:"Barbecue",d:"Fumée et sucrée",p:1.00},
+{id:"sa4",n:"Samouraï",d:"Piquante et fumée",p:1.00},
+{id:"sa5",n:"Cocktail",d:"Rose crémeuse",p:1.00},
+{id:"sa6",n:"Sauce à l'Ail",d:"Ail frais et crème",p:1.00},
+{id:"sa7",n:"Harissa",d:"Piment rouge — très piquante",p:1.00},
+{id:"sa8",n:"Algérienne",d:"Sauce épicée nord-africaine",p:1.00},
+{id:"sa9",n:"Tartare",d:"Crème, cornichons, câpres",p:1.00},
+{id:"sa10",n:"Ketchup",d:"Classique",p:1.00},
 ]},
-{cat:"Boissons",icon:"🥤",items:[
-{id:"b1",name:"Coca-Cola 33cl",desc:"Canette froide",price:2.70},
-{id:"b2",name:"Coca-Cola Zero 33cl",desc:"Sans sucre",price:2.70},
-{id:"b3",name:"Fanta Orange 33cl",desc:"Canette froide",price:2.50},
-{id:"b4",name:"Sprite 33cl",desc:"Canette froide",price:2.50},
-{id:"b5",name:"Ice Tea 33cl",desc:"Thé glacé citron",price:2.50},
-{id:"b6",name:"Ayran",desc:"Boisson traditionnelle au yaourt",price:2.00},
-{id:"b7",name:"Red Bull 25cl",desc:"Boisson énergisante",price:3.00},
-{id:"b8",name:"Monster 25cl",desc:"Boisson énergisante",price:3.50},
-{id:"b9",name:"Coca-Cola 50cl",desc:"Grande bouteille",price:4.00},
-{id:"b10",name:"Eau minérale",desc:"Eau fraîche",price:2.00},
+{c:"Boissons",i:"🥤",items:[
+{id:"b1",n:"Coca-Cola 33cl",d:"Canette froide",p:2.70},
+{id:"b2",n:"Coca-Cola Zero 33cl",d:"Sans sucre",p:2.70},
+{id:"b3",n:"Fanta Orange 33cl",d:"Canette froide",p:2.50},
+{id:"b4",n:"Sprite 33cl",d:"Canette froide",p:2.50},
+{id:"b5",n:"Ice Tea 33cl",d:"Thé glacé citron",p:2.50},
+{id:"b6",n:"Ayran",d:"Boisson traditionnelle au yaourt",p:2.00},
+{id:"b7",n:"Red Bull 25cl",d:"Boisson énergisante",p:3.00},
+{id:"b8",n:"Monster 25cl",d:"Boisson énergisante",p:3.50},
+{id:"b9",n:"Coca-Cola 50cl",d:"Grande bouteille",p:4.00},
+{id:"b10",n:"Eau minérale",d:"Eau fraîche",p:2.00},
 ]},
 ];
-const IM={};M.forEach(c=>c.items.forEach(i=>IM[i.id]=i));
-let cart={},cat="Menus",co=false,done=false,note="",view="client",orders=[],ch=null;
-const ct=()=>Object.entries(cart).reduce((s,[id,q])=>s+(IM[id]?.price||0)*q,0);
+const IM={};M.forEach(c=>c.items.forEach(x=>IM[x.id]=x));
+let cart={},cat="Menus",co=false,done=false,note="",view="client",orders=[],SB=null,ch=null;
+const ct=()=>Object.entries(cart).reduce((s,[id,q])=>s+(IM[id]?.p||0)*q,0);
 const cc=()=>Object.values(cart).reduce((s,q)=>s+q,0);
-const add=id=>{cart[id]=(cart[id]||0)+1;rC();};
-const rem=id=>{if(cart[id]>1)cart[id]--;else delete cart[id];rC();};
-function setView(v){
+const add=id=>{cart[id]=(cart[id]||0)+1;rC()};
+const rem=id=>{if(cart[id]>1)cart[id]--;else delete cart[id];rC()};
+
+function sv(v){
   view=v;
-  document.getElementById('tc').className='tab'+(v==='client'?' active':'');
-  document.getElementById('ts').className='tab'+(v==='staff'?' active':'');
+  document.getElementById('tc').className='tab'+(v==='client'?' on':'');
+  document.getElementById('ts').className='tab'+(v==='staff'?' on':'');
   document.getElementById('cv').style.display=v==='client'?'':'none';
   document.getElementById('sv').style.display=v==='staff'?'':'none';
   if(v==='staff')loadStaff();
 }
+
 function rC(){
   const el=document.getElementById('cv');
-  if(done){el.innerHTML=`<div class="success"><div style="font-size:72px;margin-bottom:20px">✅</div><h2 style="font-size:22px;font-weight:800;color:#16a34a;margin-bottom:10px">Commande envoyée !</h2><p style="font-size:14px;color:#888;margin-bottom:32px;line-height:1.6">Table ${TBL} — Commande bien reçue.<br>Notre équipe prépare votre repas.<br>Merci de patienter !</p><button onclick="done=false;cart={};rC()" style="background:#C0392B;color:#fff;border:none;border-radius:12px;padding:12px 28px;font-size:14px;font-weight:700;cursor:pointer">+ Nouvelle commande</button></div>`;return;}
-  const c=M.find(x=>x.cat===cat);
+  if(done){
+    el.innerHTML=`<div class="ok"><div style="font-size:64px;margin-bottom:16px">✅</div><h2 style="font-size:20px;font-weight:800;color:#16a34a;margin-bottom:8px">Commande envoyée !</h2><p style="font-size:13px;color:#888;margin-bottom:28px;line-height:1.6">Table ${TN} — Commande bien reçue.<br>Votre repas est en préparation !</p><button onclick="done=false;cart={};rC()" style="background:#C0392B;color:#fff;border:none;border-radius:12px;padding:12px 24px;font-size:14px;font-weight:700;cursor:pointer">+ Nouvelle commande</button></div>`;
+    return;
+  }
+  const c=M.find(x=>x.c===cat);
   const n=cc(),t=ct();
-  el.innerHTML=`<div class="hero"><div style="font-size:10px;letter-spacing:2px;opacity:0.7;text-transform:uppercase;margin-bottom:4px">Bienvenue chez</div><h1>Pitta-Snack Istanbul</h1><p style="font-size:12px;opacity:0.75;margin-top:2px">Place Verte 17, 7370 Dour</p><div style="margin-top:12px"><span class="badge">🪑 Table ${TBL}</span><span class="badge">📞 0483 43 22 39</span></div></div>
-  <div class="search-wrap"><div class="search-inner"><span style="font-size:14px;color:#999">🔍</span><input placeholder="Rechercher un plat..." oninput="rs(this.value)" style="border:none;background:none;outline:none;flex:1;font-size:14px"/></div></div>
-  <div class="cats">${M.map(x=>`<button class="cat-btn${x.cat===cat?' active':''}" onclick="cat='${x.cat}';rC()">${x.icon} ${x.cat}</button>`).join('')}</div>
-  <div class="sec-hdr"><h2>${c.icon} ${c.cat}</h2><span style="font-size:12px;color:#888">${c.items.length} articles</span></div>
-  <div id="il">${c.items.map(ri).join('')}</div>
-  ${n>0?`<div class="cart-bar" onclick="co=true;rC()"><div style="display:flex;align-items:center"><span class="ccount">${n}</span><span>Voir le panier</span></div><span class="ctotal">${t.toFixed(2)} €</span></div>`:''}
-  ${co?rCart():''}`;
+  el.innerHTML=`
+<div class="hero"><div style="font-size:10px;letter-spacing:2px;opacity:.7;text-transform:uppercase;margin-bottom:4px">Bienvenue chez</div><h1>Pitta-Snack Istanbul</h1><p>Place Verte 17, 7370 Dour</p><div><span class="badge">🪑 Table ${TN}</span><span class="badge">📞 0483 43 22 39</span></div></div>
+<div class="sb"><div class="si"><span style="color:#999">🔍</span><input placeholder="Rechercher un plat..." oninput="rs(this.value)"/></div></div>
+<div class="cats">${M.map(x=>`<button class="cb${x.c===cat?' on':''}" onclick="cat='${x.c}';rC()">${x.i} ${x.c}</button>`).join('')}</div>
+<div class="sh"><h2>${c.i} ${c.c}</h2><span style="font-size:12px;color:#888">${c.items.length} articles</span></div>
+<div id="il">${c.items.map(ri).join('')}</div>
+<div style="height:80px"></div>
+${n>0?`<div class="cb2" onclick="co=true;rC()"><div style="display:flex;align-items:center"><span class="cc">${n}</span><span style="color:#fff;font-size:14px;font-weight:600">Voir le panier</span></div><span style="color:#fff;font-size:16px;font-weight:700">${t.toFixed(2)} €</span></div>`:''}
+${co?rCart():''}`;
 }
-function ri(item){
-  const q=cart[item.id]||0;
-  return `<div class="item"><div style="flex:1"><div class="iname">${item.name}</div>${item.desc?`<div class="idesc">${item.desc}</div>`:''}<div class="iprice">${item.price.toFixed(2)} €</div></div>${q===0?`<button class="add-btn" onclick="add('${item.id}')">+</button>`:`<div class="qctrl"><button class="qbtn" onclick="rem('${item.id}')">−</button><span class="qnum">${q}</span><button class="qbtn p" onclick="add('${item.id}')">+</button></div>`}</div>`;
+
+function ri(x){
+  const q=cart[x.id]||0;
+  return `<div class="it"><div class="ii"><div class="in">${x.n}</div>${x.d?`<div class="id">${x.d}</div>`:''}<div class="ip">${x.p.toFixed(2)} €</div></div>${q===0?`<button class="ab" onclick="add('${x.id}')">+</button>`:`<div class="qc"><button class="qb" onclick="rem('${x.id}')">−</button><span class="qn">${q}</span><button class="qb p" onclick="add('${x.id}')">+</button></div>`}</div>`;
 }
+
 function rs(v){
   const il=document.getElementById('il');if(!il)return;
-  const r=v.trim()?M.flatMap(c=>c.items).filter(i=>i.name.toLowerCase().includes(v.toLowerCase())):M.find(c=>c.cat===cat)?.items||[];
+  const r=v.trim()?M.flatMap(c=>c.items).filter(i=>i.n.toLowerCase().includes(v.toLowerCase())):M.find(c=>c.c===cat)?.items||[];
   il.innerHTML=r.map(ri).join('');
 }
+
 function rCart(){
   const items=Object.entries(cart).map(([id,q])=>({...IM[id],q}));
   const t=ct();
-  return `<div class="overlay" onclick="if(event.target.className==='overlay'){co=false;rC()}"><div class="sheet"><div class="handle"></div><h2 style="font-size:18px;font-weight:700;margin-bottom:16px">🛒 Votre commande — Table ${TBL}</h2>${items.map(i=>`<div class="cart-item"><div><div style="font-size:14px;font-weight:600">${i.name}</div><div style="font-size:12px;color:#888">x${i.q} × ${i.price.toFixed(2)} €</div></div><div style="display:flex;align-items:center;gap:8px"><button class="qbtn" onclick="rem('${i.id}')" style="width:26px;height:26px;font-size:14px">−</button><span style="font-size:14px;font-weight:700">${i.q}</span><button class="qbtn p" onclick="add('${i.id}')" style="width:26px;height:26px;font-size:14px">+</button><span style="font-size:14px;font-weight:700;color:#C0392B;min-width:50px;text-align:right">${(i.price*i.q).toFixed(2)} €</span></div></div>`).join('')}<div class="cart-total"><span>Total</span><span>${t.toFixed(2)} €</span></div><textarea rows="2" placeholder="Remarques (allergies, cuisson, sans oignon...)" onchange="note=this.value">${note}</textarea><button class="obtn" onclick="subOrder()" id="ob">Envoyer la commande →</button></div></div>`;
+  return `<div class="ov" onclick="if(event.target.className==='ov'){co=false;rC()}"><div class="sh2"><div class="hnd"></div><h2 style="font-size:18px;font-weight:700;margin-bottom:16px">🛒 Votre commande — Table ${TN}</h2>${items.map(x=>`<div class="ci"><div><div style="font-size:14px;font-weight:600">${x.n}</div><div style="font-size:12px;color:#888">x${x.q} × ${x.p.toFixed(2)} €</div></div><div style="display:flex;align-items:center;gap:8px"><button class="qb" onclick="rem('${x.id}')" style="width:26px;height:26px;font-size:14px">−</button><span style="font-size:14px;font-weight:700">${x.q}</span><button class="qb p" onclick="add('${x.id}')" style="width:26px;height:26px;font-size:14px">+</button><span style="font-size:14px;font-weight:700;color:#C0392B;min-width:50px;text-align:right">${(x.p*x.q).toFixed(2)} €</span></div></div>`).join('')}<div class="ct"><span>Total</span><span>${t.toFixed(2)} €</span></div><textarea rows="2" placeholder="Remarques (allergies, cuisson, sans oignon...)" onchange="note=this.value">${note}</textarea><button class="ob" onclick="subO()" id="ob">Envoyer la commande →</button></div></div>`;
 }
-async function subOrder(){
+
+async function subO(){
   const b=document.getElementById('ob');if(b){b.disabled=true;b.textContent='Envoi...';}
-  const items=Object.entries(cart).map(([id,q])=>({id,q}));
-  const total=Math.round(ct()*100)/100;
-  const{error}=await SB.from('orders').insert([{id:`CMD-${Date.now()}`,table_num:TBL,status:'nouveau',items,note,total}]);
-  if(!error){cart={};note='';co=false;done=true;rC();}
-  else{if(b){b.disabled=false;b.textContent='Envoyer la commande →';}alert('Erreur, réessayez.');}
+  try{
+    if(!SB)throw new Error('no sb');
+    const items=Object.entries(cart).map(([id,q])=>({id,q}));
+    const total=Math.round(ct()*100)/100;
+    const{error}=await SB.from('orders').insert([{id:`CMD-${Date.now()}`,table_num:TN,status:'nouveau',items,note,total}]);
+    if(error)throw error;
+    cart={};note='';co=false;done=true;rC();
+  }catch(e){
+    if(b){b.disabled=false;b.textContent='Envoyer la commande →';}
+    alert('Erreur connexion. Vérifiez votre connexion internet et réessayez.');
+  }
 }
+
 async function loadStaff(){
   const el=document.getElementById('sv');
   el.innerHTML='<div style="text-align:center;padding:40px;color:#888">Chargement...</div>';
-  const{data}=await SB.from('orders').select('*').order('created_at',{ascending:false});
-  orders=data||[];rS();
-  if(ch)SB.removeChannel(ch);
-  ch=SB.channel('rt').on('postgres_changes',{event:'*',schema:'public',table:'orders'},p=>{
-    if(p.eventType==='INSERT'){orders.unshift(p.new);showAl();}
-    else if(p.eventType==='UPDATE')orders=orders.map(o=>o.id===p.new.id?p.new:o);
-    else if(p.eventType==='DELETE')orders=orders.filter(o=>o.id!==p.old.id);
-    rS();
-  }).subscribe();
+  try{
+    if(!SB)throw new Error('no sb');
+    const{data}=await SB.from('orders').select('*').order('created_at',{ascending:false});
+    orders=data||[];rS();
+    if(ch)SB.removeChannel(ch);
+    ch=SB.channel('rt').on('postgres_changes',{event:'*',schema:'public',table:'orders'},p=>{
+      if(p.eventType==='INSERT'){orders.unshift(p.new);showAl();}
+      else if(p.eventType==='UPDATE')orders=orders.map(o=>o.id===p.new.id?p.new:o);
+      else if(p.eventType==='DELETE')orders=orders.filter(o=>o.id!==p.old.id);
+      rS();
+    }).subscribe();
+  }catch(e){
+    el.innerHTML='<div style="text-align:center;padding:40px;color:#C0392B">Erreur de connexion Supabase</div>';
+  }
 }
-function showAl(){const a=document.getElementById('ab');a.style.display='block';setTimeout(()=>a.style.display='none',4000);}
-async function updSt(id,s){await SB.from('orders').update({status:s}).eq('id',id);}
-async function archOr(id){await SB.from('orders').delete().eq('id',id);}
+
+function showAl(){const a=document.getElementById('al');a.style.display='block';setTimeout(()=>a.style.display='none',4000);}
+
+async function updSt(id,s){if(SB)await SB.from('orders').update({status:s}).eq('id',id);}
+async function archOr(id){if(SB)await SB.from('orders').delete().eq('id',id);}
+
 function rS(){
   const el=document.getElementById('sv');
   const cn={n:orders.filter(o=>o.status==='nouveau').length,e:orders.filter(o=>o.status==='en-cours').length,p:orders.filter(o=>o.status==='pret').length};
   el.innerHTML=`<div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:14px"><div><div style="font-size:17px;font-weight:800">Commandes en cours</div><div style="font-size:12px;color:#888">Pitta-Snack Istanbul — Dour</div></div><div style="display:flex;align-items:center;gap:6px;color:#16a34a;font-size:13px;font-weight:600"><span class="dot"></span>Live</div></div>
-  <div class="stats"><div class="stat" style="background:#fdecea"><div style="font-size:26px;font-weight:800;color:#C0392B">${cn.n}</div><div style="font-size:10px;font-weight:600;color:#C0392B;margin-top:2px">Nouvelles</div></div><div class="stat" style="background:#fef3c7"><div style="font-size:26px;font-weight:800;color:#d97706">${cn.e}</div><div style="font-size:10px;font-weight:600;color:#d97706;margin-top:2px">En prép.</div></div><div class="stat" style="background:#dcfce7"><div style="font-size:26px;font-weight:800;color:#16a34a">${cn.p}</div><div style="font-size:10px;font-weight:600;color:#16a34a;margin-top:2px">Prêtes</div></div></div>
-  ${orders.length===0?'<div class="empty"><div style="font-size:40px;margin-bottom:10px">🍽️</div><div>Aucune commande pour l\'instant</div><div style="font-size:12px;margin-top:4px;color:#bbb">Les commandes apparaîtront ici en temps réel</div></div>':''}
-  ${orders.map(o=>{
-    const bc={nouveau:'#C0392B','en-cours':'#d97706',pret:'#16a34a'}[o.status]||'#ccc';
-    const b={nouveau:{bg:'#fdecea',c:'#922b21',l:'🔴 Nouveau'},'en-cours':{bg:'#fef3c7',c:'#92400e',l:'🟡 En préparation'},pret:{bg:'#dcfce7',c:'#166534',l:'🟢 Prête'}}[o.status]||{bg:'#eee',c:'#666',l:o.status};
-    const t=new Date(o.created_at).toLocaleTimeString('fr-BE',{hour:'2-digit',minute:'2-digit'});
-    return `<div class="ocard" style="border-left:4px solid ${bc}"><div class="ohead"><div><div style="font-size:15px;font-weight:700">Table ${o.table_num} <span style="color:#aaa;font-weight:400;font-size:12px">— ${String(o.id).slice(-8)}</span></div><div style="font-size:12px;color:#888">⏱ ${t}</div></div><div class="sbadge" style="background:${b.bg};color:${b.c}">${b.l}</div></div>
-    <div class="oitems">${o.items.map(it=>{const item=IM[it.id];return item?`<div class="oline"><span>${it.qty||it.q}× ${item.name}</span><span style="color:#888">${(item.price*(it.qty||it.q)).toFixed(2)} €</span></div>`:''}).join('')}${o.note?`<div class="onote">💬 ${o.note}</div>`:''}</div>
-    <div class="ofoot"><div style="font-size:14px;font-weight:700">Total : ${Number(o.total).toFixed(2)} €</div><div>${o.status==='nouveau'?`<button class="abtn" style="background:#d97706" onclick="updSt('${o.id}','en-cours')">Accepter ✓</button>`:''}${o.status==='en-cours'?`<button class="abtn" style="background:#16a34a" onclick="updSt('${o.id}','pret')">Prêt 🔔</button>`:''}${o.status==='pret'?`<button class="abtn" style="background:#6b7280" onclick="archOr('${o.id}')">Archiver</button>`:''}</div></div></div>`;
-  }).join('')}`;
+<div class="sts"><div class="st" style="background:#fdecea"><div style="font-size:26px;font-weight:800;color:#C0392B">${cn.n}</div><div style="font-size:10px;font-weight:600;color:#C0392B;margin-top:2px">Nouvelles</div></div><div class="st" style="background:#fef3c7"><div style="font-size:26px;font-weight:800;color:#d97706">${cn.e}</div><div style="font-size:10px;font-weight:600;color:#d97706;margin-top:2px">En prép.</div></div><div class="st" style="background:#dcfce7"><div style="font-size:26px;font-weight:800;color:#16a34a">${cn.p}</div><div style="font-size:10px;font-weight:600;color:#16a34a;margin-top:2px">Prêtes</div></div></div>
+${orders.length===0?'<div class="em"><div style="font-size:40px;margin-bottom:10px">🍽️</div><div>Aucune commande pour l\'instant</div></div>':''}
+${orders.map(o=>{
+  const bc={nouveau:'#C0392B','en-cours':'#d97706',pret:'#16a34a'}[o.status]||'#ccc';
+  const b={nouveau:{bg:'#fdecea',c:'#922b21',l:'🔴 Nouveau'},'en-cours':{bg:'#fef3c7',c:'#92400e',l:'🟡 En préparation'},pret:{bg:'#dcfce7',c:'#166534',l:'🟢 Prête'}}[o.status]||{bg:'#eee',c:'#666',l:o.status};
+  const t=new Date(o.created_at).toLocaleTimeString('fr-BE',{hour:'2-digit',minute:'2-digit'});
+  return `<div class="oc" style="border-left:4px solid ${bc}"><div class="oh"><div><div style="font-size:15px;font-weight:700">Table ${o.table_num} <span style="color:#aaa;font-weight:400;font-size:12px">— ${String(o.id).slice(-8)}</span></div><div style="font-size:12px;color:#888">⏱ ${t}</div></div><div class="sbg" style="background:${b.bg};color:${b.c}">${b.l}</div></div>
+<div class="oi">${(o.items||[]).map(it=>{const item=IM[it.id];return item?`<div class="ol"><span>${it.qty||it.q||1}× ${item.n}</span><span style="color:#888">${(item.p*(it.qty||it.q||1)).toFixed(2)} €</span></div>`:''}).join('')}${o.note?`<div class="on2">💬 ${o.note}</div>`:''}</div>
+<div class="of"><div style="font-size:14px;font-weight:700">Total : ${Number(o.total).toFixed(2)} €</div><div>${o.status==='nouveau'?`<button class="ac" style="background:#d97706" onclick="updSt('${o.id}','en-cours')">Accepter ✓</button>`:''}${o.status==='en-cours'?`<button class="ac" style="background:#16a34a" onclick="updSt('${o.id}','pret')">Prêt 🔔</button>`:''}${o.status==='pret'?`<button class="ac" style="background:#6b7280" onclick="archOr('${o.id}')">Archiver</button>`:''}</div></div></div>`;
+}).join('')}`;
 }
+
+// Render UI immediately — no waiting for Supabase
 rC();
+
+// Load Supabase in background
+(function(){
+  const s=document.createElement('script');
+  s.src='https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.js';
+  s.onload=function(){
+    SB=supabaseJs.createClient(
+      'https://cpeiszwucpcyvsrklmlr.supabase.co',
+      'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImNwZWlzend1Y3BjeXZzcmtsbWxyIiwicm9sZSI6ImFub24iLCJpYXQiOjE3Nzc1ODgyNzUsImV4cCI6MjA5MzE2NDI3NX0.89Nd63IZXSlQUJXlX-OiCZt7YPg6B0OkfkEawsmD85M'
+    );
+  };
+  document.head.appendChild(s);
+})();
 </script>
 </body>
 </html>
